@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <title>用户详细信息</title>
+</head>
+<style type="text/css">
+    table.hovertable {
+        margin: 0 auto;
+        font-family: verdana,arial,sans-serif;
+        font-size:11px;
+        color:#333333;
+        border-width: 1px;
+        border-color: #999999;
+        border-collapse: collapse;
+    }
+    table.hovertable th {
+        background-color:#c3dde0;
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #a9c6c9;
+        text-align:center;
+    }
+    table.hovertable tr {
+        background-color:#d4e3e5;
+    }
+    table.hovertable td {
+        border-width: 1px;
+        padding: 8px;
+        border-style: solid;
+        border-color: #a9c6c9;
+        text-align: center;
+    }
+</style>
+<body class="text-center">
+<h3  class="h3 mb-3 font-weight-normal" th:text="${bookModel.title}"></h3>
+<table border="1" class="hovertable" width="50%">
+    <tr>
+        <td>书名</td>
+        <td th:text="${book.bookname}"></td>
+    </tr>
+    <tr>
+        <td>isbn</td>
+        <td th:text="${book.isbn}"></td>
+    </tr>
+    <tr>
+        <td>出版社</td>
+        <td th:text="${book.publisher}"></td>
+    </tr>
+    <tr>
+        <td>出版日期</td>
+        <td th:text="${book.publisheryear}"></td>
+    </tr>
+    <tr>
+        <td>页数</td>
+        <td th:text="${book.page}"></td>
+    </tr>
+    <tr>
+        <td>价钱</td>
+        <td th:text="${book.price}"></td>
+    </tr>
+    <tr>
+        <td>装帧</td>
+        <td th:text="${book.framed}"></td>
+    </tr>
+</table>
+<div>
+    <a th:href="@{'../delete/'+ ${book.id}}">
+    <button id="delete" class="btn btn-lg btn-primary" type="button">删除</button>
+    </a>
+    <a th:href="@{'../modify/'+ ${book.id}}">
+    <button class="btn btn-lg btn-primary" type="button">修改</button>
+    </a>
+</div>
+</body>
+</html>

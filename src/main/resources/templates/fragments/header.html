@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" data-th-fragment="header"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公用页面头部</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<!--<div data-th-fragment="header">
+    <nav class="navbar navbar-inverse">   &lt;!&ndash;导航栏设置navbar-inverse背景色黑色&ndash;&gt;
+        <div class="container">   &lt;!&ndash;使用组件导航栏需要增加container&ndash;&gt;
+            &lt;!&ndash; Brand and toggle get grouped for better mobile display &ndash;&gt;
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">图书信息管理系统</a>
+            </div>
+            &lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;
+            <div class="navbar-right" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">首页<span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="nav navbar-nav navbar-right">  &lt;!&ndash;下拉操作&ndash;&gt;
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">登陆/注册<span class="caret"></span></a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <li><a href="http://localhost:63342/librarymanagementsystem/templates/user/userLogin.html">登陆</a></li>
+                            <li><a href="/user/form">注册</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>-->
+<div data-th-fragment="header">
+<nav class="navbar navbar-inverse">   <!--导航栏设置navbar-inverse背景色黑色-->
+    <div class="container">   <!--使用组件导航栏需要增加container-->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="http://localhost:8080/">图书信息管理系统</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="navbar-right" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="http://localhost:8080/" style="font-size: 18px">首页<span class="sr-only">(current)</span></a></li>
+                <li sec:authorize="isAnonymous()" class="nav navbar-nav navbar-right">  <!--下拉操作-->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">登录/注册<span class="caret"></span></a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li><a href="/login">登陆</a></li>
+                        <li><a href="/user/form">注册</a></li>
+                    </ul>
+                </li>
+                <li  sec:authorize="isAuthenticated()">
+                <button style="margin-top: 8px;background-color: #222222" class="btn btn-primary" type="button">
+                    Messages <span class="badge">4</span>
+                </button></li>
+                <li sec:authorize="isAuthenticated()"><a href="#"><span sec:authentication="name"></span></a></li>
+                <li sec:authorize="isAuthenticated()"><a href="/userInfoManage/userInfo">个人主页</a></li>
+                <li sec:authorize="isAuthenticated()"><form action="/logout" th:action="@{/logout}" method="post">
+                    <input class="btn btn-outline-success" style="margin-top: 8px" type="submit" value="退出">
+                </form></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</div>
+</body>
+</html>

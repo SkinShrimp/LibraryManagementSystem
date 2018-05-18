@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射文件-->
+<!--引入dao接口-->
+<mapper namespace="com.liuweiwei.librarymanagementsystem.dao.BookDao">
+
+	<resultMap type="com.liuweiwei.librarymanagementsystem.entity.Book" id="BookMap">
+		<id property="id" column="id"/>
+		<result property="bookname" column="bookname"/>
+		<result property="author" column="author"/>
+		<result property="publisher" column="publisher"/>
+		<result property="publisheryear" column="publisheryear"/>
+		<result property="page" column="page"/>
+		<result property="price" column="price"/>
+		<result property="framed" column="framed"/>
+		<result property="isbn" column="isbn"/>
+		<result property="create_time" column="create_time"/>
+		<result property="update_time" column="update_time"/>
+		<result property="delete_flag" column="delete_flag"/>
+		<result property="overview" column="overview"/>
+	</resultMap>
+
+	<!--保存-->
+	<insert id="save" parameterType="com.liuweiwei.librarymanagementsystem.entity.Book" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO book(bookname,author,publisher,publisheryear,page,price,framed,overview,isbn,create_time,update_time,delete_flag)
+		VALUES(#{bookname},#{author},#{publisher},#{publisheryear},#{page},#{price},#{framed},#{overview},#{isbn},now(),now(),#{delete_flag})
+	</insert>
+
+	<select id="loadAll" resultMap="BookMap">
+		select u.* from book u
+	</select>
+	<delete id="delete" parameterType="java.lang.Integer" >
+		delete from book where id=#{id}
+	</delete>
+	<update id="update" parameterType="com.liuweiwei.librarymanagementsystem.entity.Book">
+		UPDATE book SET bookname=#{bookname},author=#{author},publisher=#{publisher},publisheryear=#{publisheryear},page=#{page},price=#{price},framed=#{framed},overview=#{overview},update_time=now(),isbn=#{isbn}
+		WHERE id=#{id}
+	</update>
+	<select id="findById" parameterType="java.lang.Integer" resultMap="BookMap">
+		select u.* from book u
+		WHERE id=#{id}
+	</select>
+	<!--&lt;!&ndash;&lt;!&ndash;删除&ndash;&gt;
+
+	&lt;!&ndash; 根据账号来获取用户信息 &ndash;&gt;
+	<select id="findByLogin" parameterType="java.lang.String" resultMap="UserLoginMap">
+		select u.* from user u where u.username=#{userName}
+	</select>
+	&lt;!&ndash;根据主键获取对象&ndash;&gt;
+
+	&lt;!&ndash;修改&ndash;&gt;
+
+	&lt;!&ndash;根据主键获取对象&ndash;&gt;-->
+
+
+
+</mapper>

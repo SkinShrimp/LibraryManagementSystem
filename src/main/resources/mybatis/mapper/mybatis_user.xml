@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--映射文件-->
+<!--引入dao接口-->
+<mapper namespace="com.liuweiwei.librarymanagementsystem.dao.UserDao">
+
+	<resultMap type="com.liuweiwei.librarymanagementsystem.entity.QueryUser" id="UserMap">
+		<id property="id" column="id"/>
+		<result property="userName" column="username"/>
+		<result property="passWord" column="password"/>
+		<result property="born_data" column="born_data"/>
+		<result property="phone" column="phone"/>
+		<result property="city" column="city"/>
+		<result property="address" column="address"/>
+		<result property="email" column="email"/>
+		<result property="job" column="job"/>
+		<result property="create_time" column="create_time"/>
+		<result property="update_time" column="update_time"/>
+		<result property="delete_flag" column="delete_flag"/>
+		<result property="lastLoginTime" column="lastlogintime"/>
+	</resultMap>
+
+	<!-- 包含角色信息的map -->
+	<resultMap type="com.liuweiwei.librarymanagementsystem.entity.User" id="UserLoginMap">
+		<id property="id" column="id"/>
+		<result property="userName" column="username"/>
+		<result property="passWord" column="password"/>
+		<result property="born_data" column="born_data"/>
+		<result property="phone" column="phone"/>
+		<result property="city" column="city"/>
+		<result property="address" column="address"/>
+		<result property="email" column="email"/>
+		<result property="job" column="job"/>
+		<result property="create_time" column="create_time"/>
+		<result property="update_time" column="update_time"/>
+		<result property="delete_flag" column="delete_flag"/>
+		<result property="lastLoginTime" column="lastlogintime"/>
+		<collection property="roles"  ofType="com.liuweiwei.librarymanagementsystem.entity.UserRole" javaType="java.util.ArrayList">
+			<result column="user_role_id" property="id" jdbcType="VARCHAR" />
+			<result column="name" property="name" jdbcType="VARCHAR" />
+			<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		</collection>
+	</resultMap>
+
+	<!--保存-->
+	<insert id="save" parameterType="com.liuweiwei.librarymanagementsystem.entity.User" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO user(username,password,born_data,phone,city,address,email,job,create_time,update_time,delete_flag,lastlogintime)
+		VALUES(#{userName},#{passWord},#{born_data},#{phone},#{city},#{address},#{email},#{job},now(),now(),#{delete_flag},now())
+	</insert>
+	<!--删除-->
+	<delete id="delete" parameterType="java.lang.Integer" >
+		delete from user where id=#{id}
+	</delete>
+	<!-- 根据账号来获取用户信息 -->
+	<select id="findByLogin" parameterType="java.lang.String" resultMap="UserLoginMap">
+		select u.* from user u where u.username=#{userName}
+	</select>
+	<!--根据主键获取对象-->
+	<select id="findById" parameterType="java.lang.Integer" resultMap="UserLoginMap">
+		select u.* from user u
+		WHERE id=#{id}
+	</select>
+	<!--修改-->
+	<update id="update" parameterType="com.liuweiwei.librarymanagementsystem.entity.User">
+		UPDATE user SET username=#{userName},password=#{passWord},born_data=#{born_data},phone=#{phone},city=#{city},address=#{address},email=#{email},job=#{job},update_time=now()
+		WHERE id=#{id}
+	</update>
+	<!--根据主键获取对象-->
+	<select id="loadAll" resultMap="UserMap">
+		select u.* from user u
+	</select>
+
+	<!--分页查询组织架构底下的用户-->
+	<select id="findGroupUserByPage" parameterType="com.liuweiwei.librarymanagementsystem.entity.QueryUser" resultMap="UserMap">
+		select u.* from user u
+		WHERE 1=1
+		<if test="userName!=null and userName!='' ">
+			AND u.user_name like concat(#{userName},'%')
+		</if>
+		<if test="sort!= null and sort!='' ">
+			order by ${sort} ${order}
+		</if>
+		limit #{offset},#{limit}
+	</select>
+
+	<!--统计组织架构底下的用户-->
+	<select id="countGroupUser" parameterType="com.liuweiwei.librarymanagementsystem.entity.QueryUser" resultType="int">
+		select count(1) from user u
+		WHERE 1=1
+		<if test="userName!=null and userName!='' ">
+			AND u.user_name like concat(#{userName},'%')
+		</if>
+	</select>
+
+	<!--分页查询-->
+	<select id="findByPage" parameterType="com.liuweiwei.librarymanagementsystem.entity.QueryUser" resultMap="UserMap">
+		select u.* from user u
+		WHERE 1=1
+		<if test="login!=null and login!='' ">
+			AND u.login=#{login}
+		</if>
+		<if test="password!=null and password!='' ">
+			AND u.password=#{password}
+		</if>
+		<if test="userName!=null and userName!='' ">
+			AND u.user_name=#{userName}
+		</if>
+		<if test="address!=null and address!='' ">
+			AND u.address=#{address}
+		</if>
+		<if test="job!=null and job!='' ">
+			AND u.job=#{job}
+		</if>
+		<if test="groupId!=null and groupId!='' ">
+			AND u.group_id=#{groupId}
+		</if>
+		<if test="birthDate!=null and birthDate!='' ">
+			AND u.birth_date=#{birthDate}
+		</if>
+		<if test="city!=null and city!='' ">
+			AND u.city=#{city}
+		</if>
+		<if test="district!=null and district!='' ">
+			AND u.district=#{district}
+		</if>
+		<if test="province!=null and province!='' ">
+			AND u.province=#{province}
+		</if>
+		<if test="streetAddress!=null and streetAddress!='' ">
+			AND u.street_address=#{streetAddress}
+		</if>
+		<if test="state!=null and state!='' ">
+			AND u.state=#{state}
+		</if>
+		<if test="type!=null and type!='' ">
+			AND u.type=#{type}
+		</if>
+		<if test="lastLoginDate!=null and lastLoginDate!='' ">
+			AND u.last_login_date=#{lastLoginDate}
+		</if>
+		<if test="sort!= null and sort!='' ">
+			order by ${sort} ${order}
+		</if>
+		limit #{offset},#{limit}
+	</select>
+
+	<!--统计-->
+	<select id="count" parameterType="com.liuweiwei.librarymanagementsystem.entity.QueryUser" resultType="int">
+		SELECT count(*) FROM user
+		WHERE 1=1
+		<if test="login!=null and login!='' ">
+			AND login=#{login}
+		</if>
+		<if test="password!=null and password!='' ">
+			AND password=#{password}
+		</if>
+		<if test="userName!=null and userName!='' ">
+			AND user_name=#{userName}
+		</if>
+		<if test="address!=null and address!='' ">
+			AND address=#{address}
+		</if>
+		<if test="job!=null and job!='' ">
+			AND job=#{job}
+		</if>
+		<if test="groupId!=null and groupId!='' ">
+			AND group_id=#{groupId}
+		</if>
+		<if test="birthDate!=null and birthDate!='' ">
+			AND birth_date=#{birthDate}
+		</if>
+		<if test="city!=null and city!='' ">
+			AND city=#{city}
+		</if>
+		<if test="district!=null and district!='' ">
+			AND district=#{district}
+		</if>
+		<if test="province!=null and province!='' ">
+			AND province=#{province}
+		</if>
+		<if test="streetAddress!=null and streetAddress!='' ">
+			AND street_address=#{streetAddress}
+		</if>
+		<if test="state!=null and state!='' ">
+			AND state=#{state}
+		</if>
+		<if test="type!=null and type!='' ">
+			AND type=#{type}
+		</if>
+		<if test="lastLoginDate!=null and lastLoginDate!='' ">
+			AND last_login_date=#{lastLoginDate}
+		</if>
+		<if test="sort!= null and sort!='' ">
+			order by ${sort} ${order}
+		</if>
+	</select>
+
+	<!--查询-->
+	<select id="query" parameterType="com.liuweiwei.librarymanagementsystem.entity.QueryUser" resultMap="UserMap">
+		SELECT id,login,password,user_name,address,job,group_id,birth_date,city,district,province,street_address,state,type,last_login_date FROM user
+		WHERE 1=1
+		<if test="login!=null and login!='' ">
+			AND login=#{login}
+		</if>
+		<if test="password!=null and password!='' ">
+			AND password=#{password}
+		</if>
+		<if test="userName!=null and userName!='' ">
+			AND user_name=#{userName}
+		</if>
+		<if test="address!=null and address!='' ">
+			AND address=#{address}
+		</if>
+		<if test="job!=null and job!='' ">
+			AND job=#{job}
+		</if>
+		<if test="groupId!=null and groupId!='' ">
+			AND group_id=#{groupId}
+		</if>
+		<if test="birthDate!=null and birthDate!='' ">
+			AND birth_date=#{birthDate}
+		</if>
+		<if test="city!=null and city!='' ">
+			AND city=#{city}
+		</if>
+		<if test="district!=null and district!='' ">
+			AND district=#{district}
+		</if>
+		<if test="province!=null and province!='' ">
+			AND province=#{province}
+		</if>
+		<if test="streetAddress!=null and streetAddress!='' ">
+			AND street_address=#{streetAddress}
+		</if>
+		<if test="state!=null and state!='' ">
+			AND state=#{state}
+		</if>
+		<if test="type!=null and type!='' ">
+			AND type=#{type}
+		</if>
+		<if test="lastLoginDate!=null and lastLoginDate!='' ">
+			AND last_login_date=#{lastLoginDate}
+		</if>
+		<if test="sort!= null and sort!='' ">
+			order by ${sort} ${order}
+		</if>
+	</select>
+
+</mapper>

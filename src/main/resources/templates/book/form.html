@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>thymeleaf</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>用户登陆页面</title>
+
+    <style>
+        body {
+            height: 100%;
+        }
+
+        /*body {
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }*/
+
+        .form-signin {
+            width: 100%;
+            max-width: 330px;
+            padding: 15px;
+            margin: auto;
+        }
+        .form-signin .checkbox {
+            font-weight: 400;
+        }
+        .form-signin .form-control {
+            position: relative;
+            box-sizing: border-box;
+            height: auto;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .form-signin .form-control:focus {
+            z-index: 2;
+        }
+        .form-signin input{
+            margin-bottom: -1px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .form-signin input[type="password"] {
+            margin-bottom: 10px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+    </style>
+</head>
+<body class="text-center">
+<!--
+<div th:include="~{base/header :: includebase}"></div>
+-->
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<!--
+<div th:replace="~{fragments/header :: header}"></div>
+-->
+
+<h3 th:text="${bookModel.title}"></h3>
+<form class="form-signin" action="#" name="add" th:action="@{/book/add}" th:object="${book}" method="post">
+    <input type="hidden" id="id" name="id" class="form-control" placeholder="id" th:value="*{id}" th:hidden="true">
+    <label for="bookname" class="sr-only">书名</label>
+    <input type="text" id="bookname" name="bookname" class="form-control" placeholder="书名" th:value="*{bookname}" required autofocus>
+    <label for="author" class="sr-only">作者</label>
+    <input type="text" id="author" name="author" class="form-control" placeholder="作者" th:value="*{author}" required autofocus>
+    <label for="publisher" class="sr-only">出版社</label>
+    <input type="text" id="publisher" name="publisher" class="form-control" placeholder="出版社" th:value="*{publisher}" required autofocus>
+    <label for="publisheryear" class="sr-only">出版时间</label>
+    <input th:if="${book} ne null and ${book.publisheryear} ne null" type="datetime" id="showBorn_data" name="publisheryear" class="form-control" placeholder="出版时间" th:value="*{publisheryear}">
+    <input th:if="${book.id} eq 0" type="date" id="publisheryear" name="publisheryear" class="form-control" placeholder="出版时间" th:value="*{publisheryear}">
+    <label for="page" class="sr-only">页数</label>
+    <input type="text" id="page" name="page" class="form-control" placeholder="页数" th:value="*{page}" required autofocus>
+    <label for="price" class="sr-only">价钱</label>
+    <input type="text" id="price" name="price" class="form-control" placeholder="价钱" th:value="*{price}">
+    <label for="framed" class="sr-only">装帧</label>
+    <input type="text" id="framed" name="framed" class="form-control" placeholder="装帧" th:value="*{framed}" required autofocus>
+    <label for="isbn" class="sr-only">isbn</label>
+    <input type="text" id="isbn" name="isbn" class="form-control" placeholder="isbn" th:value="*{isbn}" required autofocus>
+    <label for="overview" class="sr-only">概述</label>
+    <input type="text" id="overview" name="overview" class="form-control" placeholder="概述" th:value="*{overview}">
+
+    <input class="btn btn-lg btn-primary btn-block" type="submit" value="提交">
+</form>
+<!--
+<div th:replace="~{fragments/footer :: footer}"></div>
+-->
+</body>
+</html>
